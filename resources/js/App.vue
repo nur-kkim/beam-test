@@ -32,4 +32,25 @@ const updateCustomer = (newCustomer: any) => {
     display: flex;
     flex-direction: column;
   }
+
+  .submit-button {
+    width: 30%;
+    margin: 0 auto;
+    padding: 12px 24px;
+    background-color: #4c8bf5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .submit-button:hover {
+    background-color: #3578e5;
+  }
+  .form {
+    flex: 1;
+  }
+
 </style>
