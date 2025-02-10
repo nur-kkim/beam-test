@@ -44,4 +44,4 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 EXPOSE 9000
 
 # Start PHP-FPM
-CMD ["php-fpm"]
+CMD service nginx start && php-fpm
