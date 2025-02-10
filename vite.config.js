@@ -8,7 +8,13 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),
-      vue()
+        vue(),
     ],
-
+    server: {
+        host: '0.0.0.0', // Allow access from outside the container
+        port: 5173,      // Vite dev server port
+        hmr: {
+            host: 'localhost', // Hot Module Replacement host
+        },
+    },
 });
