@@ -8,10 +8,15 @@ import ModalCustomer from "./components/ModalCustomer.vue";
 import ModalOrder from "./components/ModalOrder.vue";
 import ModalDevice from "./components/ModalDevice.vue";
 
-const customer = ref([]);
+const customer = ref({
+  id: "",
+  phone_number: "",
+  name: "",
+  inn: "",
+  addresses: [{ id: undefined, name: "", apartment: "", street: "", house: "", description: "" }],
+});
 
-const updateCustomer = (newCustomer: any) => {
-  console.log(newCustomer);
+const updateCustomer = (newCustomer) => {
   customer.value = newCustomer;
 };
 </script>

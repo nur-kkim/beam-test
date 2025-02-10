@@ -24,6 +24,7 @@ const form = ref({
 });
 
 const submitForm = () => {
+  isModalOpen.value = false;
   console.log("Отправка формы:", form.value);
 
   fetch("api/devices", {

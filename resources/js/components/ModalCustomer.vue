@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import CustomerForm from "./Customer.vue";
+import { onMounted, reactive, ref } from "vue";
 
 // Состояние для отображения модального окна
 const isModalOpen = ref(false);
@@ -14,8 +13,6 @@ const openModal = () => {
 const closeModal = () => {
   isModalOpen.value = false;
 };
-import { onMounted, reactive, ref } from "vue";
-import { data } from "autoprefixer";
 
 interface Address {
   id?: number;
@@ -48,11 +45,11 @@ const errorMessage = ref<string | null>(null);
 const emit = defineEmits(["customerCreated"]);
 
 const addAddress = () => {
-  form.addresses.push({ id: undefined, name: "", apartment: "", street: "", house: "", description: "" });
+  form?.addresses?.push({ id: undefined, name: "", apartment: "", street: "", house: "", description: "" });
 };
 
 const removeAddress = (index: number) => {
-  form.addresses.splice(index, 1);
+  form?.addresses?.splice(index, 1);
 };
 
 
@@ -62,8 +59,9 @@ const submitForm = async () => {
   errorMessage.value = null;
 
   try {
+    let response = {};
     if (form.id) {
-      const response = await fetch("/api/customers/" + form.id, {
+      response = await fetch("/api/customers/" + form.id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +70,7 @@ const submitForm = async () => {
         body: JSON.stringify(form),
       });
     } else {
-      const response = await fetch("/api/customers", {
+      response = await fetch("/api/customers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,11 +85,13 @@ const submitForm = async () => {
       throw new Error(errorData.message || "Ошибка при отправке данных");
     }
 
-    const data = await response.json();
+    const data = await response?.json();
     emit("customerCreated", data);
 
     successMessage.value = "Клиент успешно добавлен!";
     console.log("Ответ от сервера:", data);
+    alert(successMessage.value);
+    isModalOpen.value = false;
 
     form.id = data.id
     form.phone_number = "";
@@ -112,9 +112,9 @@ onMounted(async () => {
     if (!response.ok) throw new Error("Ошибка загрузки пользователя");
 
     const user = await response.json();
-    emit("customerCreated", user);
+    if (Object.keys(user).length !== 0) {
+      emit("customerCreated", user);
 
-    if (user) {
       form.id = user.id
       form.phone_number = user.phone_number;
       form.name = user.name;
